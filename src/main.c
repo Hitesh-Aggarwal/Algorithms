@@ -3,10 +3,10 @@
 #include <stdlib.h>
 
 int main(int argc, char *argv[]) {
-  int arr[] = {3, 8, 10, 4, 7, 2, 5, 9, 6, 1};
-  struct Heap *h = (struct Heap *)malloc(sizeof(struct Heap));
-  h->arr = arr;
-  h->size = 10;
+  int A[] = {5,3,17,10,84,19,6,22,9};
+  Heap *h = (Heap *)malloc(sizeof(Heap));
+  h->arr = A;
+  h->size = 9;
   printHeap(h);
   build_max_heap(h);
   printHeap(h);

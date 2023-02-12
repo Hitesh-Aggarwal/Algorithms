@@ -2,18 +2,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int parent(int i) { return ((i + 1) / 2) - 1; }
+inline int parent(int i) { return ((i + 1) / 2) - 1; }
 
-int left(int i) { return 2 * (i + 1) - 1; }
+inline int left(int i) { return 2 * (i + 1) - 1; }
 
-int right(int i) { return 2 * (i + 1); }
+inline int right(int i) { return 2 * (i + 1); }
 
-void createHeap(struct Heap *h, int max_size) {
+void createHeap(Heap *h, int max_size) {
   h->arr = (int *)malloc(sizeof(int) * max_size);
   h->size = 0;
 }
 
-void MaxHeapify(struct Heap *h, int i) {
+void MaxHeapify(Heap *h, int i) {
   int l = left(i);
   int r = right(i);
   int largest = l;
@@ -32,7 +32,7 @@ void MaxHeapify(struct Heap *h, int i) {
   }
 }
 
-void MinHeapify(struct Heap *h, int i) {
+void MinHeapify(Heap *h, int i) {
   int l = left(i);
   int r = right(i);
   int smallest = l;
@@ -51,7 +51,7 @@ void MinHeapify(struct Heap *h, int i) {
   }
 }
 
-void MaxHeapify_iterative(struct Heap *h, int i) {
+void MaxHeapify_iterative(Heap *h, int i) {
   int largest = i;
   int temp;
   while (1) {
@@ -74,7 +74,7 @@ void MaxHeapify_iterative(struct Heap *h, int i) {
   }
 }
 
-void MinHeapify_iterative(struct Heap *h, int i) {
+void MinHeapify_iterative(Heap *h, int i) {
   int smallest = i;
   int temp;
   while (1) {
@@ -97,12 +97,17 @@ void MinHeapify_iterative(struct Heap *h, int i) {
   }
 }
 
-void build_max_heap(struct Heap *h) {
+void build_max_heap(Heap *h) {
   for (int i = h->size / 2 - 1; i >= 0; i--)
     MaxHeapify_iterative(h, i);
 }
 
-void printHeap(struct Heap *h) {
+void build_min_heap(Heap *h) {
+  for (int i = h->size / 2 - 1; i >= 0; i--)
+    MinHeapify_iterative(h, i);
+}
+
+void printHeap(Heap *h) {
   int k = 0;
   for (int size = 1; k < h->size; size *= 2) {
     for (int c = 0; c < size && k < h->size; c++)
