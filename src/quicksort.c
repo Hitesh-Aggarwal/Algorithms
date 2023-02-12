@@ -1,9 +1,9 @@
 #include "quicksort.h"
 #include <stdlib.h>
 
-int partition(int *A, int p, int r) {
-  int x = A[r];
-  int temp;
+int partition(long *A, int p, int r) {
+  long x = A[r];
+  long temp;
   int i = p - 1;
   for (int j = p; j <= r - 1; j++) {
     if (A[j] <= x) {
@@ -19,26 +19,26 @@ int partition(int *A, int p, int r) {
   return i+1;
 }
 
-int randomPartition(int *A, int p, int r) {
+int randomPartition(long *A, int p, int r) {
   int i = (rand() % (r-p+1)) + p;
-  int temp = A[i];
+  long temp = A[i];
   A[i] = A[r];
   A[r] = temp;
   return partition(A,p,r);
 }
 
-void quicksort(int *A, int p, int r) {
-  if (p < r) {
+void quicksort(long *A, int p, int r) {
+  while (p < r) {
     int q = partition(A, p, r);
     quicksort(A, p, q - 1);
-    quicksort(A, q + 1, r);
+    p = q+1;
   }
 }
 
-void randomizedQuicksort(int *A, int p, int r) {
-  if (p < r) {
+void randomizedQuicksort(long *A, int p, int r) {
+  while (p < r) {
     int q = randomPartition(A, p, r);
     randomizedQuicksort(A, p, q - 1);
-    randomizedQuicksort(A, q + 1, r);
+    p = q+1;
   }
 }

@@ -3,11 +3,11 @@
 #include <stdlib.h>
 #include <limits.h>
 
-inline int parent(int i) { return ((i + 1) / 2) - 1; }
+int parent(int i) { return ((i + 1) / 2) - 1; }
 
-inline int left(int i) { return 2 * (i + 1) - 1; }
+int left(int i) { return 2 * (i + 1) - 1; }
 
-inline int right(int i) { return 2 * (i + 1); }
+int right(int i) { return 2 * (i + 1); }
 
 void createHeap(Heap *h, int max_size) {
   h->arr = (int *)malloc(sizeof(int) * max_size);
