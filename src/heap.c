@@ -1,6 +1,7 @@
 #include "heap.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 inline int parent(int i) { return ((i + 1) / 2) - 1; }
 
@@ -32,25 +33,6 @@ void MaxHeapify(Heap *h, int i) {
   }
 }
 
-void MinHeapify(Heap *h, int i) {
-  int l = left(i);
-  int r = right(i);
-  int smallest = l;
-  int temp;
-  if (l < h->size && h->arr[l] < h->arr[i])
-    smallest = l;
-  else
-    smallest = i;
-  if (r < h->size && h->arr[r] < h->arr[smallest])
-    smallest = r;
-  if (smallest != i) {
-    temp = h->arr[i];
-    h->arr[i] = h->arr[smallest];
-    h->arr[smallest] = temp;
-    MaxHeapify(h, smallest);
-  }
-}
-
 void MaxHeapify_iterative(Heap *h, int i) {
   int largest = i;
   int temp;
@@ -74,37 +56,9 @@ void MaxHeapify_iterative(Heap *h, int i) {
   }
 }
 
-void MinHeapify_iterative(Heap *h, int i) {
-  int smallest = i;
-  int temp;
-  while (1) {
-    int l = left(i);
-    int r = right(i);
-    if (l < h->size && h->arr[l] < h->arr[i])
-      smallest = l;
-    else
-      smallest = i;
-    if (r < h->size && h->arr[r] < h->arr[smallest])
-      smallest = r;
-    if (smallest == i)
-      break;
-    else {
-      temp = h->arr[i];
-      h->arr[i] = h->arr[smallest];
-      h->arr[smallest] = temp;
-      i = smallest;
-    }
-  }
-}
-
 void build_max_heap(Heap *h) {
   for (int i = h->size / 2 - 1; i >= 0; i--)
     MaxHeapify_iterative(h, i);
-}
-
-void build_min_heap(Heap *h) {
-  for (int i = h->size / 2 - 1; i >= 0; i--)
-    MinHeapify_iterative(h, i);
 }
 
 void printHeap(Heap *h) {
@@ -114,4 +68,62 @@ void printHeap(Heap *h) {
       printf("%d ", h->arr[k++]);
     printf("\n");
   }
+}
+
+void heapSort(Heap *h) {
+  int orig_size = h->size;
+  int temp;
+  build_max_heap(h);
+  for(int i=h->size-1; i>=0; i--) {
+    temp = h->arr[i];
+    h->arr[i] = h->arr[0];
+    h->arr[0] = temp;
+    h->size = h->size - 1;
+    MaxHeapify(h, 0);
+  }
+  h->size = orig_size;
+}
+
+int heap_maximum(Heap *h) {
+  return h->arr[0];
+}
+
+int heap_extract_max(Heap *h) {
+  if (h->size < 1) {
+    printf("Heap underflow");
+    return -1;
+  }
+  int max = h->arr[0];
+  h->arr[0] = h->arr[h->size - 1];
+  h->size = h->size - 1;
+  MaxHeapify(h, 0);
+  return max;
+}
+
+void Heap_increase_key(Heap *h, int i, int k) {
+  if (i>=h->size) return;
+  if (k < h->arr[i]) {
+    printf("new key smaller than current key");
+    return;
+  }
+  h->arr[i] = k;
+  int temp = h->arr[i];
+  while (i>0 && h->arr[parent(i)] < temp) {
+    h->arr[i] = h->arr[parent(i)];
+    i = parent(i);
+  }
+  h->arr[i] = temp;
+}
+
+void max_heap_insert(Heap *h, int k) {
+  h->size = h->size + 1;
+  h->arr[h->size - 1] = INT_MIN;
+  Heap_increase_key(h, h->size -1, k);
+}
+
+void heap_delete(Heap *h, int i) {
+  if (i >= h->size) return;
+  h->arr[i] = h->arr[h->size - 1];
+  h->size = h->size - 1;
+  MaxHeapify(h,i);
 }
