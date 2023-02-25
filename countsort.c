@@ -1,8 +1,9 @@
-#include "countsort.h"
+#include <stdio.h>
 #include <stdlib.h>
+#define N 10
 
 void count_sort(int *arr, int n, int k) {
-  int *C = (int *)malloc(sizeof(int) * (k+1));
+  int *C = (int *)malloc(sizeof(int) * (k + 1));
   int *B = (int *)malloc(sizeof(int) * n);
   for (int i = 0; i <= k; i++)
     C[i] = 0;
@@ -19,4 +20,14 @@ void count_sort(int *arr, int n, int k) {
 
   free(C);
   free(B);
+}
+
+int main(int argc, char *argv[]) {
+  int A[N] = {3, 10, 7, 9, 8, 2, 5, 6, 4, 1};
+  count_sort(A, N, 10);
+  for (int i = 0; i < N; i++)
+    printf("%d ", A[i]);
+  printf("\n");
+
+  return 0;
 }

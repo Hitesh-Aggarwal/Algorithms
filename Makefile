@@ -1,20 +1,12 @@
-SRC_DIR := ./src
-OBJ_DIR := ./obj
-SRC_FILES := $(wildcard $(SRC_DIR)/*.c)
-OBJ_FILES := $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
-CPPFLAGS := -O3 -Wall
+OUT_DIR := ./out
+MAIN_FILES := $(patsubst %.c, $(OUT_DIR)/%.out, $(wildcard *.c))
+CFLAGS := -O3 -Wall
 
-run: main
-	./main
+all: $(MAIN_FILES)
 
-main: $(OBJ_FILES)
-	gcc -o $@ $^
-
-$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
+$(OUT_DIR)/%.out : %.c
 	@mkdir -p $(@D)
-	gcc $(CPPFLAGS) -c -o $@ $<
-
-.PHONY: clean
+	gcc $(CFLAGS) -o $@ $<
 
 clean:
-	rm -rf $(OBJ_DIR) main
+	rm -rf $(OUT_DIR)

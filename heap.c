@@ -1,7 +1,13 @@
-#include "heap.h"
+#include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
+
+#define N 10
+
+typedef struct Heap {
+  int *arr;
+  int size;
+} Heap;
 
 int parent(int i) { return ((i + 1) / 2) - 1; }
 
@@ -74,7 +80,7 @@ void heapSort(Heap *h) {
   int orig_size = h->size;
   int temp;
   build_max_heap(h);
-  for(int i=h->size-1; i>=0; i--) {
+  for (int i = h->size - 1; i >= 0; i--) {
     temp = h->arr[i];
     h->arr[i] = h->arr[0];
     h->arr[0] = temp;
@@ -84,9 +90,7 @@ void heapSort(Heap *h) {
   h->size = orig_size;
 }
 
-int heap_maximum(Heap *h) {
-  return h->arr[0];
-}
+int heap_maximum(Heap *h) { return h->arr[0]; }
 
 int heap_extract_max(Heap *h) {
   if (h->size < 1) {
@@ -101,14 +105,15 @@ int heap_extract_max(Heap *h) {
 }
 
 void Heap_increase_key(Heap *h, int i, int k) {
-  if (i>=h->size) return;
+  if (i >= h->size)
+    return;
   if (k < h->arr[i]) {
     printf("new key smaller than current key");
     return;
   }
   h->arr[i] = k;
   int temp = h->arr[i];
-  while (i>0 && h->arr[parent(i)] < temp) {
+  while (i > 0 && h->arr[parent(i)] < temp) {
     h->arr[i] = h->arr[parent(i)];
     i = parent(i);
   }
@@ -118,12 +123,23 @@ void Heap_increase_key(Heap *h, int i, int k) {
 void max_heap_insert(Heap *h, int k) {
   h->size = h->size + 1;
   h->arr[h->size - 1] = INT_MIN;
-  Heap_increase_key(h, h->size -1, k);
+  Heap_increase_key(h, h->size - 1, k);
 }
 
 void heap_delete(Heap *h, int i) {
-  if (i >= h->size) return;
+  if (i >= h->size)
+    return;
   h->arr[i] = h->arr[h->size - 1];
   h->size = h->size - 1;
-  MaxHeapify(h,i);
+  MaxHeapify(h, i);
+}
+
+int main(int argc, char *argv[]) {
+  int A[N] = {24, 15, 903, -23, 52, -523, 32, 54, -24, 12};
+  Heap *h = (Heap *)malloc(sizeof(Heap));
+  h->arr = A;
+  h->size = N;
+  build_max_heap(h);
+  printHeap(h);
+  return 0;
 }
