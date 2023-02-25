@@ -1,10 +1,10 @@
 OUT_DIR := ./out
-MAIN_FILES := $(patsubst %.c, $(OUT_DIR)/%.out, $(wildcard *.c))
+MAIN_FILES := $(patsubst %.c, $(OUT_DIR)/%, $(wildcard *.c))
 CFLAGS := -O3 -Wall
 
 all: $(MAIN_FILES)
 
-$(OUT_DIR)/%.out : %.c
+$(OUT_DIR)/% : %.c
 	@mkdir -p $(@D)
 	gcc $(CFLAGS) -o $@ $<
 
