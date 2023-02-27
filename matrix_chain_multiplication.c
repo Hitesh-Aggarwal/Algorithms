@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// #define N 6
-#define N 40
+#define N 6
 
 int matrix_chain_multiply_brute_force(int *p, int i, int j) {
   if (i == j)
@@ -61,11 +60,7 @@ void print_optimal_parens(int *s, int i, int j, int n) {
 }
 
 int main(int argc, char *argv[]) {
-  // int p[N + 1] = {30, 35, 15, 5, 10, 20, 25};
-  int p[N + 1] = {80,  166, 8,   163, 89,  2,   197, 162, 183, 77,  133,
-                  178, 52,  99,  10,  60,  143, 58,  6,   70,  107, 13,
-                  176, 85,  141, 164, 191, 200, 113, 17,  30,  199, 198,
-                  46,  7,   153, 140, 131, 154, 34,  35};
+  int p[N + 1] = {5,10,3,12,5,50,6};
   int m[N][N];
   int s[N][N];
   matrix_chain_order(p, (int *)m, (int *)s, N);
