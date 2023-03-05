@@ -6,7 +6,7 @@
 
 int max(int a, int b) { return (a > b) ? a : b; }
 
-int lcs_brute_force(int *X, int *Y, int m, int n) {
+int lcs_brute_force(char *X, char *Y, int m, int n) {
   if (m == -1 || n == -1)
     return 0;
   else {
@@ -18,7 +18,7 @@ int lcs_brute_force(int *X, int *Y, int m, int n) {
   }
 }
 
-int lcs_memoized_aux(int *X, int *Y, int m, int n, int *C) {
+int lcs_memoized_aux(char *X, char *Y, int m, int n, int *C) {
   if (m == -1 || n == -1)
     return 0;
   else if (C[m * N + n] > -1) {
@@ -36,7 +36,7 @@ int lcs_memoized_aux(int *X, int *Y, int m, int n, int *C) {
   }
 }
 
-int lcs_memoized(int *X, int *Y, int m, int n) {
+int lcs_memoized(char *X, char *Y, int m, int n) {
   int C[M][N];
   for (int i = 0; i < M; i++)
     for (int j = 0; j < N; j++)
@@ -44,7 +44,7 @@ int lcs_memoized(int *X, int *Y, int m, int n) {
   return lcs_memoized_aux(X, Y, m, n, (int *)C);
 }
 
-void lcs_length(int *X, int *Y, int m, int n, int *b, int *c) {
+void lcs_length(char *X, char *Y, int m, int n, int *b, int *c) {
   for (int i = 1; i <= m; i++)
     c[i * (N + 1) + 0] = 0;
   for (int j = 0; j <= n; j++)
@@ -65,7 +65,7 @@ void lcs_length(int *X, int *Y, int m, int n, int *b, int *c) {
   }
 }
 
-void print_lcs(int *X, int *Y, int m, int n) {
+void print_lcs(char *X, char *Y, int m, int n) {
   int c[M + 1][N + 1];
   int b[M + 1][N + 1];
   lcs_length(X, Y, m, n, (int *)b, (int *)c);
@@ -83,25 +83,25 @@ void print_lcs(int *X, int *Y, int m, int n) {
       j = j - 1;
   }
   while (k > 0) {
-    printf("%d ", arr[k - 1]);
+    printf("%c", arr[k - 1]);
     k--;
   }
   printf("\n");
 }
 
-void print_lcs_aux(int *b, int *X, int i, int j) {
+void print_lcs_aux(int *b, char *X, int i, int j) {
   if (i == 0 || j == 0)
     return;
   if (b[i * (N + 1) + j] == 2) {
     print_lcs_aux(b, X, i - 1, j - 1);
-    printf("%d ", X[i - 1]);
+    printf("%c", X[i - 1]);
   } else if (b[i * (N + 1) + j] == 1)
     print_lcs_aux(b, X, i - 1, j);
   else
     print_lcs_aux(b, X, i, j - 1);
 }
 
-void print_lcs_recursive(int *X, int *Y, int m, int n) {
+void print_lcs_recursive(char *X, char *Y, int m, int n) {
   int c[M + 1][N + 1];
   int b[M + 1][N + 1];
   lcs_length(X, Y, m, n, (int *)b, (int *)c);
@@ -110,11 +110,9 @@ void print_lcs_recursive(int *X, int *Y, int m, int n) {
 }
 
 int main(int argc, char *argv[]) {
-  int X[M] = {1, 2, 3, 2, 4, 1, 2};
-  int Y[N] = {2, 4, 3, 1, 2, 1};
+  char X[M] = "abcbdab";
+  char Y[N] = "bdcaba";
 
-  // printf("%d\n", lcs_brute_force(X, Y, M - 1, N - 1));
-  // printf("%d\n", lcs_memoized(X, Y, M - 1, N - 1));
   print_lcs(X, Y, M, N);
   print_lcs_recursive(X, Y, M, N);
   return 0;
