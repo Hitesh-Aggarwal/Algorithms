@@ -13,8 +13,7 @@ int matrix_chain_multiply_brute_force(int *p, int i, int j) {
       int left = matrix_chain_multiply_brute_force(p, i, k);
       int right = matrix_chain_multiply_brute_force(p, k + 1, j);
       int cost = p[i - 1] * p[k] * p[j];
-      if (min > (left + right + cost))
-        min = left + right + cost;
+      if (min > (left + right + cost)) min = left + right + cost;
     }
     return min;
   }
@@ -29,8 +28,7 @@ void matrix_chain_order(int *p, int *m, int n) {
       int j = i + l - 1;
       m[(i - 1) * n + (j - 1)] = INT_MAX;
       for (int k = i; k < j; k++) {
-        int q = m[(i - 1) * n + (k - 1)] + m[k * n + (j - 1)] +
-                p[i - 1] * p[k] * p[j];
+        int q = m[(i - 1) * n + (k - 1)] + m[k * n + (j - 1)] + p[i - 1] * p[k] * p[j];
         if (q < m[(i - 1) * n + (j - 1)]) {
           m[(i - 1) * n + (j - 1)] = q;
           m[(j - 1) * n + (i - 1)] = k;
@@ -42,9 +40,15 @@ void matrix_chain_order(int *p, int *m, int n) {
 
 void print_optimal_parens(int *s, int i, int j, int n) {
   if (i == j) {
-    char *sub[] = {"\xe2\x82\x80", "\xe2\x82\x81", "\xe2\x82\x82",
-                   "\xe2\x82\x83", "\xe2\x82\x84", "\xe2\x82\x85",
-                   "\xe2\x82\x86", "\xe2\x82\x87", "\xe2\x82\x88",
+    char *sub[] = {"\xe2\x82\x80",
+                   "\xe2\x82\x81",
+                   "\xe2\x82\x82",
+                   "\xe2\x82\x83",
+                   "\xe2\x82\x84",
+                   "\xe2\x82\x85",
+                   "\xe2\x82\x86",
+                   "\xe2\x82\x87",
+                   "\xe2\x82\x88",
                    "\xe2\x82\x89"};
     if (i < 10)
       printf("A%s", sub[i]);

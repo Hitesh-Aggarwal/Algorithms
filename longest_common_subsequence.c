@@ -13,8 +13,7 @@ int lcs_brute_force(char *X, char *Y, int m, int n) {
     if (X[m] == Y[n])
       return (1 + lcs_brute_force(X, Y, m - 1, n - 1));
     else
-      return max(lcs_brute_force(X, Y, m - 1, n),
-                 lcs_brute_force(X, Y, m, n - 1));
+      return max(lcs_brute_force(X, Y, m - 1, n), lcs_brute_force(X, Y, m, n - 1));
   }
 }
 
@@ -28,8 +27,7 @@ int lcs_memoized_aux(char *X, char *Y, int m, int n, int *C) {
     if (X[m] == Y[n])
       val = 1 + lcs_memoized_aux(X, Y, m - 1, n - 1, C);
     else
-      val = max(lcs_memoized_aux(X, Y, m - 1, n, C),
-                lcs_memoized_aux(X, Y, m, n - 1, C));
+      val = max(lcs_memoized_aux(X, Y, m - 1, n, C), lcs_memoized_aux(X, Y, m, n - 1, C));
 
     C[m * N + n] = val;
     return val;
@@ -90,8 +88,7 @@ void print_lcs(char *X, char *Y, int m, int n) {
 }
 
 void print_lcs_aux(int *b, char *X, int i, int j) {
-  if (i == 0 || j == 0)
-    return;
+  if (i == 0 || j == 0) return;
   if (b[i * (N + 1) + j] == 2) {
     print_lcs_aux(b, X, i - 1, j - 1);
     printf("%c", X[i - 1]);

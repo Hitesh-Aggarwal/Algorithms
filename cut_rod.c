@@ -6,8 +6,7 @@
 int max(int a, int b) { return (a > b) ? a : b; }
 
 int memoized_cut_rod_aux(int *p, int n, int *r) {
-  if (r[n] >= 0)
-    return r[n];
+  if (r[n] >= 0) return r[n];
   int q;
   if (n == 0)
     q = 0;
@@ -28,8 +27,7 @@ int memoized_cut_rod(int *p, int n) {
 }
 
 int extended_memoized_cut_rod_aux(int *p, int n, int *r, int *s) {
-  if (r[n] >= 0)
-    return r[n];
+  if (r[n] >= 0) return r[n];
   int q;
   int a;
   if (n == 0)
@@ -97,8 +95,7 @@ void print_cut_rod_solution(int *p, int n) {
 }
 
 int cut_rod(int *p, int n) {
-  if (n == 0)
-    return 0;
+  if (n == 0) return 0;
   int q = -1;
   for (int i = 0; i < n; i++)
     q = max(q, p[i] + cut_rod(p, n - i - 1));
@@ -106,10 +103,9 @@ int cut_rod(int *p, int n) {
 }
 
 int main(int argc, char *argv[]) {
-  int p[N] = {1,   5,   8,   9,   10,  17,  17,  20,  24,  30,
-              29,  46,  51,  66,  92,  96,  112, 118, 146, 164,
-              188, 197, 218, 238, 261, 288, 289, 291, 301, 314,
-              333, 341, 355, 367, 374, 396, 399, 429, 454, 465};
+  int p[N] = {1,   5,   8,   9,   10,  17,  17,  20,  24,  30,  29,  46,  51,  66,
+              92,  96,  112, 118, 146, 164, 188, 197, 218, 238, 261, 288, 289, 291,
+              301, 314, 333, 341, 355, 367, 374, 396, 399, 429, 454, 465};
   // printf("%d\n", memoized_cut_rod(p, 39));
   printf("%d\n", bottom_up_cut_rod(p, 28));
   // printf("%d\n", cut_rod(p, 11));

@@ -29,8 +29,7 @@ int randomPartition(int *A, int p, int r) {
 }
 
 int randomized_select(int *A, int p, int r, int i) {
-  if (p == r)
-    return A[p];
+  if (p == r) return A[p];
   int q = randomPartition(A, p, r);
   int k = q - p + 1;
   if (i == k)
@@ -43,9 +42,9 @@ int randomized_select(int *A, int p, int r, int i) {
 
 int main(int argc, char *argv[]) {
   int A[N] = {24, 15, 903, -23, 52, -523, 32, 54, -24, 12};
-  printf("%d\n", randomized_select(A,0,N-1,9));
-  for(int i=0; i<N; i++)
-    printf("%d ",A[i]);
+  printf("%d\n", randomized_select(A, 0, N - 1, 9));
+  for (int i = 0; i < N; i++)
+    printf("%d ", A[i]);
   printf("\n");
   return 0;
 }

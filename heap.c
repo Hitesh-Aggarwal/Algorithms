@@ -29,8 +29,7 @@ void MaxHeapify(Heap *h, int i) {
     largest = l;
   else
     largest = i;
-  if (r < h->size && h->arr[r] > h->arr[largest])
-    largest = r;
+  if (r < h->size && h->arr[r] > h->arr[largest]) largest = r;
   if (largest != i) {
     temp = h->arr[i];
     h->arr[i] = h->arr[largest];
@@ -49,8 +48,7 @@ void MaxHeapify_iterative(Heap *h, int i) {
       largest = l;
     else
       largest = i;
-    if (r < h->size && h->arr[r] > h->arr[largest])
-      largest = r;
+    if (r < h->size && h->arr[r] > h->arr[largest]) largest = r;
     if (largest == i)
       break;
     else {
@@ -105,8 +103,7 @@ int heap_extract_max(Heap *h) {
 }
 
 void Heap_increase_key(Heap *h, int i, int k) {
-  if (i >= h->size)
-    return;
+  if (i >= h->size) return;
   if (k < h->arr[i]) {
     printf("new key smaller than current key");
     return;
@@ -127,8 +124,7 @@ void max_heap_insert(Heap *h, int k) {
 }
 
 void heap_delete(Heap *h, int i) {
-  if (i >= h->size)
-    return;
+  if (i >= h->size) return;
   h->arr[i] = h->arr[h->size - 1];
   h->size = h->size - 1;
   MaxHeapify(h, i);
