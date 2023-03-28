@@ -19,6 +19,20 @@ void recursive_activity_selector(activity *list, int k, activity *selected, int 
   }
 }
 
+void greedy_activity_selector(activity *list, activity *selected, int *counter) {
+  *counter = 0;
+  selected[*counter] = list[1];
+  *counter = 1;
+  int k = 1;
+  for(int m = 2; m < N; m++) {
+    if (list[m].startTime >= list[k].finishTime){
+      selected[*counter] = list[m];
+      (*counter)++;
+      k = m;
+    }
+  }
+}
+
 int main(int argc, char *argv[]) {
   activity list[N] = {{0, 0, 0},
                       {1, 1, 4},
@@ -34,7 +48,7 @@ int main(int argc, char *argv[]) {
                       {11, 12, 16}};
   int counter = 0;
   activity selected[N];
-  recursive_activity_selector(list, 0, selected, &counter);
+  greedy_activity_selector(list, selected, &counter);
   for (int i = 0; i < counter; i++)
     printf("%d ", selected[i].id);
   printf("\n");
