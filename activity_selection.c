@@ -24,8 +24,8 @@ void greedy_activity_selector(activity *list, activity *selected, int *counter) 
   selected[*counter] = list[1];
   *counter = 1;
   int k = 1;
-  for(int m = 2; m < N; m++) {
-    if (list[m].startTime >= list[k].finishTime){
+  for (int m = 2; m < N; m++) {
+    if (list[m].startTime >= list[k].finishTime) {
       selected[*counter] = list[m];
       (*counter)++;
       k = m;
