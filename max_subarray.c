@@ -32,10 +32,14 @@ void find_max_crossing_subarray(
 }
 
 void find_max_subarray(int arr[], int low, int high, int *l, int *h, int *max_sum) {
-  int left_left, left_right, left_sum;
-  int cross_left, cross_right, cross_sum;
-  int right_left, right_right, right_sum;
-  if (low < high) {
+  if (low == high) {
+    *l = low;
+    *h = high;
+    *max_sum = arr[low];
+  } else {
+    int left_left, left_right, left_sum;
+    int cross_left, cross_right, cross_sum;
+    int right_left, right_right, right_sum;
     int mid = low + (high - low) / 2;
     find_max_subarray(arr, low, mid, &left_left, &left_right, &left_sum);
     find_max_subarray(arr, mid + 1, high, &right_left, &right_right, &right_sum);
