@@ -60,10 +60,33 @@ void find_max_subarray(int arr[], int low, int high, int *l, int *h, int *max_su
   }
 }
 
+void max_subarray(int A[], int n, int *l, int *h, int *max_sum) {
+  int current_sum = A[0];
+  int p = 0;
+  int q;
+  *max_sum = INT_MIN;
+  for (int i = 1; i < n; i++) {
+    int val = current_sum + A[i];
+    if (val >= A[i]) {
+      current_sum = val;
+      q = i;
+    } else {
+      current_sum = A[i];
+      p = i;
+      q = i;
+    }
+    if (*max_sum < current_sum) {
+      *max_sum = current_sum;
+      *l = p;
+      *h = q;
+    }
+  }
+}
+
 int main() {
   int arr[N] = {13, -3, -25, 20, -3, -16, -23, 18, 20, -7, 12, -5, -22, 15, -4, 7};
   int low, high, sum;
-  find_max_subarray(arr, 0, N - 1, &low, &high, &sum);
+  max_subarray(arr, N, &low, &high, &sum);
   printf("%d %d %d\n", low, high, sum);
   return 0;
 }
