@@ -6,7 +6,6 @@
 #define parent(i) ((i + 1) / 2 - 1)
 #define left(i) ((2 * (i + 1) - 1))
 #define right(i) (2 * (i + 1))
-#define heap_maximum(arr) (*arr)
 
 void MaxHeapify(int arr[], int n, int i) {
   int l = left(i);
@@ -64,45 +63,6 @@ void heapSort(int arr[], int n) {
     MaxHeapify(arr, n - 1, 0);
   }
 }
-
-int heap_extract_max(int arr[], int n) {
-  if (n < 1) {
-    printf("Heap underflow");
-    return -1;
-  }
-  int max = heap_maximum(arr);
-  arr[0] = arr[n - 1];
-  n = n - 1;
-  MaxHeapify(arr, n, 0);
-  return max;
-}
-
-void Heap_increase_key(int arr[], int n, int i, int k) {
-  if (i >= n) return;
-  if (k < arr[i]) {
-    printf("new key smaller than current key");
-    return;
-  }
-  arr[i] = k;
-  int temp = arr[i];
-  while (i > 0 && arr[parent(i)] < temp) {
-    arr[i] = arr[parent(i)];
-    i = parent(i);
-  }
-  arr[i] = temp;
-}
-
-void max_heap_insert(int arr[], int n, int k) {
-  arr[n] = INT_MIN;
-  Heap_increase_key(arr, n + 1, n, k);
-}
-
-void heap_delete(int arr[],int n,int i) {
-  if (i >= n) return;
-  arr[i] = arr[n - 1];
-  MaxHeapify(arr,n, i);
-}
-
 int main(int argc, char *argv[]) {
   int A[N] = {24, 15, 903, -23, 52, -523, 32, 54, -24, 12};
   heapSort(A,N);
