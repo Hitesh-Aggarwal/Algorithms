@@ -4,6 +4,10 @@ CFLAGS := -O3 -Wall
 
 all: $(MAIN_FILES)
 
+$(OUT_DIR)/radix_sort : radix_sort.c
+	@mkdir -p $(@D)
+	gcc $(CFLAGS) -o $@ $< -lm
+
 $(OUT_DIR)/% : %.c
 	@mkdir -p $(@D)
 	gcc $(CFLAGS) -o $@ $<
