@@ -40,11 +40,29 @@ int randomized_select(int *A, int p, int r, int i) {
     return randomized_select(A, q + 1, r, i - k);
 }
 
+int randomized_select_iterative(int *A, int n, int i) {
+  int p = 0;
+  int r = n - 1;
+  int q, k;
+  while (p < r) {
+    q = randomPartition(A, p, r);
+    k = q - p + 1;
+    if (i == k)
+      return A[q];
+    else if (i < k)
+      r = q - 1;
+    else {
+      p = q + 1;
+      i = i - k;
+    }
+  }
+  return A[p];
+}
+
 int main(int argc, char *argv[]) {
   int A[N] = {24, 15, 903, -23, 52, -523, 32, 54, -24, 12};
-  printf("%d\n", randomized_select(A, 0, N - 1, 9));
-  for (int i = 0; i < N; i++)
-    printf("%d ", A[i]);
+  int i = 4;
+  printf("%dth smallest element: %d\n", i, randomized_select_iterative(A, N, i));
   printf("\n");
   return 0;
 }
