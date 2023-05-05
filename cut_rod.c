@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N 40
+#define N 10
 
 int max(int a, int b) { return (a > b) ? a : b; }
 
@@ -103,14 +103,8 @@ int cut_rod(int *p, int n) {
 }
 
 int main(int argc, char *argv[]) {
-  int p[N] = {1,   5,   8,   9,   10,  17,  17,  20,  24,  30,  29,  46,  51,  66,
-              92,  96,  112, 118, 146, 164, 188, 197, 218, 238, 261, 288, 289, 291,
-              301, 314, 333, 341, 355, 367, 374, 396, 399, 429, 454, 465};
-  // printf("%d\n", memoized_cut_rod(p, 39));
-  printf("%d\n", bottom_up_cut_rod(p, 28));
-  // printf("%d\n", cut_rod(p, 11));
-  print_extended_memoized_cut_rod(p, 28);
-  print_cut_rod_solution(p, 28);
-
+  int p[N] = {1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
+  printf("%d\n", bottom_up_cut_rod(p, N));
+  print_cut_rod_solution(p, N);
   return 0;
 }
