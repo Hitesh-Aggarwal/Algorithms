@@ -185,6 +185,7 @@ node *rb_delete_fixup(node *root, node *x, node *nil) {
         w->color = 'B';
         x->parent->color = 'R';
         root = left_rotate(root, x->parent, nil);
+        w = x->parent->right;
       }
       if (w->left->color == 'B' && w->right->color == 'B') {
         w->color = 'R';
@@ -208,6 +209,7 @@ node *rb_delete_fixup(node *root, node *x, node *nil) {
         w->color = 'B';
         x->parent->color = 'R';
         root = right_rotate(root, x->parent, nil);
+        w = x->parent->left;
       }
       if (w->right->color == 'B' && w->left->color == 'B') {
         w->color = 'R';
@@ -227,6 +229,7 @@ node *rb_delete_fixup(node *root, node *x, node *nil) {
       }
     }
   }
+  x->color = 'B';
   return root;
 }
 
@@ -278,9 +281,13 @@ int main(int argc, char *argv[]) {
   node *root = build_rb_tree(A, N, nil);
   inorder(root, nil);
   printf("\n");
+  preorder(root, nil);
+  printf("\n");
   printf("Root: %d\n", root->key);
-  root = rb_delete(root, tree_search(root, 10, nil), nil);
+  root = rb_delete(root, tree_search(root, 5, nil), nil);
   inorder(root, nil);
+  printf("\n");
+  preorder(root, nil);
   printf("\n");
   printf("Root: %d\n", root->key);
   return 0;
