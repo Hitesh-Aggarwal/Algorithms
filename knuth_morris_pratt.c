@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int *compute_prefix_function(char *P) {
-  int m = strlen(P);
+int *compute_prefix_function(char *P, int m) {
   int *pi = malloc(sizeof(int) * m);
   pi[0] = 0;
   int k = 0;
@@ -17,11 +16,10 @@ int *compute_prefix_function(char *P) {
 }
 
 void KMP_matcher(char *T, char *P) {
-  int n = strlen(T);
   int m = strlen(P);
-  int *pi = compute_prefix_function(P);
+  int *pi = compute_prefix_function(P,m);
   int q = 0;
-  for (int i = 0; i < n; i++) {
+  for (int i = 0; T[i] != '\0'; i++) {
     while (q > 0 && P[q] != T[i])
       q = pi[q - 1];
     if (P[q] == T[i]) q = q + 1;
