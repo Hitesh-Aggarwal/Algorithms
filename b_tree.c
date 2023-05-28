@@ -146,6 +146,20 @@ int B_tree_predecessor(B_tree *root, int k) {
   }
 }
 
+void B_tree_traverse(B_tree *x) {
+  if (x->leaf) {
+    printf("\nNew Node: ");
+    for (int i = 0; i < x->n; i++)
+      printf("%c ", x->key[i]);
+  } else {
+    printf("\nNew Node: ");
+    for (int i = 0; i < x->n; i++)
+      printf("%c ", x->key[i]);
+    for (int i = 0; i <= x->n; i++)
+      B_tree_traverse(x->child[i]);
+  }
+}
+
 int main(int argc, char *argv[]) {
   B_tree *root = B_tree_create();
   char arr[N] = {'F', 'S', 'Q', 'K', 'C', 'L', 'H', 'T', 'V', 'W', 'M',
@@ -153,8 +167,9 @@ int main(int argc, char *argv[]) {
   for (int i = 0; i < N; i++)
     root = B_tree_insert(root, arr[i]);
 
-  printf("%c\n", B_tree_minimum(root));
-  printf("%c\n", B_tree_maximum(root));
-  printf("%c\n", B_tree_predecessor(root, 'V'));
+  // printf("%c\n", B_tree_minimum(root));
+  // printf("%c\n", B_tree_maximum(root));
+  // printf("%c\n", B_tree_predecessor(root, 'V'));
+  B_tree_traverse(root);
   return 0;
 }
