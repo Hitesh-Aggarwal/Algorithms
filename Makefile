@@ -8,6 +8,10 @@ $(OUT_DIR)/radix_sort : radix_sort.c
 	@mkdir -p $(@D)
 	gcc $(CFLAGS) -o $@ $< -lm
 
+$(OUT_DIR)/protoVanEmdeBoasTree : protoVanEmdeBoasTree.c
+	@mkdir -p $(@D)
+	gcc $(CFLAGS) -o $@ $< -lm
+
 $(OUT_DIR)/% : %.c
 	@mkdir -p $(@D)
 	gcc $(CFLAGS) -o $@ $<
