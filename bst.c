@@ -10,6 +10,17 @@ typedef struct node {
   struct node *parent;
 } node;
 
+void pretty_print(node *root, int depth) {
+  if (root) {
+    for (int i = 0; i < depth; i++)
+      printf("     ");
+    printf("|----");
+    printf("%d\n", root->key);
+    pretty_print(root->left, depth + 1);
+    pretty_print(root->right, depth + 1);
+  }
+}
+
 void inorder(node *root) {
   if (root) {
     inorder(root->left);
@@ -144,11 +155,11 @@ node *build_random_bst(int arr[], int n) {
 int main(int argc, char *argv[]) {
   int arr[N] = {81, 11, 91, 21, 31, 41, 71, 61, 51, 1};
   node *root = build_random_bst(arr, N);
-  inorder(root);
+  pretty_print(root, 0);
   printf("\n");
 
   root = tree_delete(root, tree_search(root, 1));
-  inorder(root);
+  pretty_print(root, 0);
   printf("\n");
   return 0;
 }
