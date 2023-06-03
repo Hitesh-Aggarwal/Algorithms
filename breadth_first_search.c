@@ -88,7 +88,7 @@ void BFS(vertex graph[], int n, int s) {
       p = p->next;
     }
     color[u] = 'B';
-    printf("%d ", u);
+    printf("Node: %d\t\tPredecessor: %d\t\tDistance from source: %d\n", u, predecessor[u],dist[u]);
   }
   free(Q.arr);
 }
