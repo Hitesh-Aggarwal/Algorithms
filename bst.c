@@ -13,8 +13,8 @@ typedef struct node {
 void pretty_print(node *root, int depth) {
   if (root) {
     for (int i = 0; i < depth; i++)
-      printf("     ");
-    printf("|----");
+      printf("    |");
+    printf("----");
     printf("%d\n", root->key);
     pretty_print(root->left, depth + 1);
     pretty_print(root->right, depth + 1);
