@@ -1,5 +1,5 @@
 OUT_DIR := ./out
-MAIN_FILES := $(patsubst %.c, $(OUT_DIR)/%, $(wildcard *.c))
+MAIN_FILES := $(patsubst %.c, $(OUT_DIR)/%, $(filter-out graph.c, $(wildcard *.c)))
 CFLAGS := -O3 -Wall
 
 all: $(MAIN_FILES)
@@ -15,6 +15,12 @@ $(OUT_DIR)/protoVanEmdeBoasTree : protoVanEmdeBoasTree.c
 $(OUT_DIR)/vanEmdeBoasTrees : vanEmdeBoasTrees.c
 	@mkdir -p $(@D)
 	gcc $(CFLAGS) -o $@ $< -lm
+
+$(OUT_DIR)/breadth_first_search : breadth_first_search.c
+	@mkdir -p $(@D)
+	gcc $(CFLAGS) -o $@ $< graph.c -lm
+
+$(OUT_DIR)/graph : graph.c
 
 $(OUT_DIR)/% : %.c
 	@mkdir -p $(@D)
