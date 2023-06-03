@@ -5,10 +5,10 @@
 
 #define N 8
 
-void BFS(vertex graph[], int n, int s) {
+int * BFS(vertex graph[], int n, int s) {
   char color[n];
   int dist[n];
-  int predecessor[n];
+  int *predecessor = malloc(sizeof(int)*n);
   queue Q;
   Q.arr = malloc(sizeof(int) * n);
   Q.size = 0;
@@ -41,6 +41,18 @@ void BFS(vertex graph[], int n, int s) {
     printf("Node: %d\t\tPredecessor: %d\t\tDistance from source: %d\n", u, predecessor[u], dist[u]);
   }
   free(Q.arr);
+  return predecessor;
+}
+
+void print_path(vertex *G, int s, int v, int n, int *predecessor){
+  if (v == s)
+    printf("%d ", s);
+  else if (predecessor[v] == -1)
+    printf("No path from %d to %d exists.\n",s,v);
+  else {
+    print_path(G,s,predecessor[v],n,predecessor);
+    printf("%d ", v);
+  }
 }
 
 int main(int argc, char *argv[]) {
@@ -70,6 +82,7 @@ int main(int argc, char *argv[]) {
   insert_edge(graph, 7, 3);
   insert_edge(graph, 7, 6);
   BFS(graph, N, 0);
+  print_path(graph,0,7,N,BFS(graph,N,0));
   free_graph(graph, N);
   return EXIT_SUCCESS;
 }
