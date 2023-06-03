@@ -63,7 +63,7 @@ void BFS(vertex graph[], int n, int s) {
   Q.arr = malloc(sizeof(int) * n);
   Q.size = 0;
   Q.cap = n;
-  Q.q_front = -1;
+  Q.q_front = 0;
 
   for (int i = 0; i < n; i++) {
     if (i == s) continue;
@@ -88,7 +88,7 @@ void BFS(vertex graph[], int n, int s) {
       p = p->next;
     }
     color[u] = 'B';
-    printf("Node: %d\t\tPredecessor: %d\t\tDistance from source: %d\n", u, predecessor[u],dist[u]);
+    printf("Node: %d\t\tPredecessor: %d\t\tDistance from source: %d\n", u, predecessor[u], dist[u]);
   }
   free(Q.arr);
 }
