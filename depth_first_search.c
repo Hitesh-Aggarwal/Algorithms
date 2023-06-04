@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define N 9
+#define N 14
 
 vertex *append_front(vertex *list, int u) {
   vertex *x = create_vertex(u);
@@ -74,15 +74,26 @@ int main(int argc, char *argv[]) {
     graph[i].index = i;
     graph[i].next = NULL;
   }
-  insert_edge(graph, 0, 1);
-  insert_edge(graph, 0, 3);
+  insert_edge(graph, 0, 4);
+  insert_edge(graph, 0, 5);
+  insert_edge(graph, 0, 11);
+  insert_edge(graph, 1, 4);
+  insert_edge(graph, 1, 8);
   insert_edge(graph, 1, 2);
+  insert_edge(graph, 2, 5);
+  insert_edge(graph, 2, 6);
   insert_edge(graph, 3, 2);
-  insert_edge(graph, 4, 3);
-  insert_edge(graph, 4, 6);
-  insert_edge(graph, 5, 4);
-  insert_edge(graph, 5, 6);
-  insert_edge(graph, 7, 6);
+  insert_edge(graph, 3, 6);
+  insert_edge(graph, 3, 13);
+  insert_edge(graph, 4, 7);
+  insert_edge(graph, 5, 8);
+  insert_edge(graph, 5, 12);
+  insert_edge(graph, 6, 5);
+  insert_edge(graph, 8, 7);
+  insert_edge(graph, 9, 10);
+  insert_edge(graph, 9, 11);
+  insert_edge(graph, 10, 13);
+  insert_edge(graph, 12, 9);
   DFS(graph, N);
   free_graph(graph, N);
   return EXIT_SUCCESS;
