@@ -61,8 +61,10 @@ void DFS(vertex graph[], int n) {
   vertex *x = list;
   printf("Toplogical Sort: ");
   while (x) {
+    list = x;
     printf("%d ", x->index);
     x = x->next;
+    free(list);
   }
 }
 
