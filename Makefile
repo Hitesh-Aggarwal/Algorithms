@@ -18,7 +18,11 @@ $(OUT_DIR)/vanEmdeBoasTrees : vanEmdeBoasTrees.c
 
 $(OUT_DIR)/breadth_first_search : breadth_first_search.c
 	@mkdir -p $(@D)
-	gcc $(CFLAGS) -o $@ $< graph.c -lm
+	gcc $(CFLAGS) -o $@ $< graph.c
+
+$(OUT_DIR)/depth_first_search : depth_first_search.c
+	@mkdir -p $(@D)
+	gcc $(CFLAGS) -o $@ $< graph.c
 
 $(OUT_DIR)/graph : graph.c
 
