@@ -24,7 +24,9 @@ $(OUT_DIR)/depth_first_search : depth_first_search.c
 	@mkdir -p $(@D)
 	gcc $(CFLAGS) -o $@ $< graph.c
 
-$(OUT_DIR)/graph : graph.c
+$(OUT_DIR)/strongly_connected_components : strongly_connected_components.c
+	@mkdir -p $(@D)
+	gcc $(CFLAGS) -o $@ $< graph.c
 
 $(OUT_DIR)/% : %.c
 	@mkdir -p $(@D)
