@@ -13,9 +13,9 @@ typedef struct queue {
   int q_front;
 } queue;
 vertex *create_vertex(int index);
+vertex *transpose(vertex* graph, int n);
 void insert_edge(vertex graph[], int u, int v);
 void free_graph(vertex graph[], int n);
 void enqueue(queue *q, int val);
 int dequeue(queue *q);
-
 #endif /* GRAPH_H */

@@ -40,3 +40,15 @@ int dequeue(queue *q) {
   q->size = q->size - 1;
   return val;
 }
+
+vertex *transpose(vertex *graph, int n){
+  vertex *t_graph = malloc(sizeof(vertex)*n);
+  for(int i=0; i<n; i++){
+    vertex *p = graph[i].next;
+    while(p){
+      insert_edge(t_graph,p->index,i);
+      p = p->next;
+    }
+  }
+  return t_graph;
+}
