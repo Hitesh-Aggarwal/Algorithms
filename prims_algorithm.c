@@ -109,8 +109,34 @@ void print_heap(PQ *pq) {
     printf("Vertex = %d    Key = %d\n", pq->elements[i]->vertex, pq->elements[i]->key);
 }
 
+void pretty_DFS_Visit(int graph[N][N], int u, char color[N], int indent) {
+  color[u] = 'G';
+  for (int i = 0; i < indent; i++)
+    printf("    |");
+  printf("----");
+  printf("%d\n", u);
+  for (int i = 0; i < N; i++) {
+    if (graph[u][i] == 1 && color[i] == 'W') { pretty_DFS_Visit(graph, i, color, indent + 1); }
+  }
+  color[u] = 'B';
+}
+
+void pretty_dfs(int graph[N][N]) {
+  char color[N];
+  for (int i = 0; i < N; i++)
+    color[i] = 'W';
+  for (int i = 0; i < N; i++) {
+    if (color[i] == 'W') pretty_DFS_Visit(graph, i, color, 0);
+  }
+}
+
 void MST_prim(int graph[N][N]) {
   PQ *pq = create_heap();
+  int final_graph[N][N];
+  for (int i = 0; i < N; i++)
+    for (int j = 0; j < N; j++)
+      final_graph[i][j] = 0;
+
   node vertices[N];
   for (int i = 0; i < N; i++) {
     vertices[i].key = INT_MAX;
@@ -132,8 +158,15 @@ void MST_prim(int graph[N][N]) {
         }
       }
     }
-    if (u->vertex > 0) { printf("\nEdge Selected: %d ---- %d", u->predecessor, u->vertex); }
+    if (u->vertex > 0) {
+      printf("\nEdge Selected: %d ---- %d", u->predecessor, u->vertex);
+      final_graph[u->vertex][u->predecessor] = 1;
+      final_graph[u->predecessor][u->vertex] = 1;
+    }
   }
+  printf("\n");
+  pretty_dfs(final_graph);
+  free(pq->elements);
   free(pq);
 }
 
