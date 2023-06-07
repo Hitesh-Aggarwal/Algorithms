@@ -16,23 +16,27 @@ $(OUT_DIR)/vanEmdeBoasTrees : vanEmdeBoasTrees.c
 	@mkdir -p $(@D)
 	gcc $(CFLAGS) -o $@ $< -lm
 
-$(OUT_DIR)/breadth_first_search : breadth_first_search.c
+$(OUT_DIR)/breadth_first_search : breadth_first_search.c graph.c
 	@mkdir -p $(@D)
 	gcc $(CFLAGS) -o $@ $< graph.c
 
-$(OUT_DIR)/depth_first_search : depth_first_search.c
+$(OUT_DIR)/depth_first_search : depth_first_search.c graph.c
 	@mkdir -p $(@D)
 	gcc $(CFLAGS) -o $@ $< graph.c
 
-$(OUT_DIR)/kruskal_algo : kruskal_algo.c
+$(OUT_DIR)/kruskal_algo : kruskal_algo.c graph.c
 	@mkdir -p $(@D)
 	gcc $(CFLAGS) -o $@ $< graph.c
 
-$(OUT_DIR)/prims_algorithm : prims_algorithm.c
+$(OUT_DIR)/prims_algorithm : prims_algorithm.c graph.c
 	@mkdir -p $(@D)
 	gcc $(CFLAGS) -o $@ $< graph.c
 
-$(OUT_DIR)/strongly_connected_components : strongly_connected_components.c
+$(OUT_DIR)/strongly_connected_components : strongly_connected_components.c graph.c
+	@mkdir -p $(@D)
+	gcc $(CFLAGS) -o $@ $< graph.c
+
+$(OUT_DIR)/bellman_ford: bellman_ford.c graph.c
 	@mkdir -p $(@D)
 	gcc $(CFLAGS) -o $@ $< graph.c
 
