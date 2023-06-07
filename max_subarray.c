@@ -37,9 +37,9 @@ void find_max_subarray(int arr[], int low, int high, int *l, int *h, int *max_su
     *h = high;
     *max_sum = arr[low];
   } else {
-    int left_left, left_right, left_sum;
-    int cross_left, cross_right, cross_sum;
-    int right_left, right_right, right_sum;
+    int left_left=0, left_right=0, left_sum=0;
+    int cross_left=0, cross_right=0, cross_sum=0;
+    int right_left=0, right_right=0, right_sum=0;
     int mid = low + (high - low) / 2;
     find_max_subarray(arr, low, mid, &left_left, &left_right, &left_sum);
     find_max_subarray(arr, mid + 1, high, &right_left, &right_right, &right_sum);
