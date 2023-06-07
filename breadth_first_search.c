@@ -3,6 +3,28 @@
 #include <stdlib.h>
 #include "graph.h"
 
+typedef struct queue {
+  int cap;
+  int size;
+  int *arr;
+  int q_front;
+} queue;
+
+void enqueue(queue *q, int val) {
+  if (q->size == q->cap) return;
+  int index = (q->q_front + q->size) % q->cap;
+  q->size += 1;
+  q->arr[index] = val;
+}
+
+int dequeue(queue *q) {
+  if (q->size == 0) return INT_MIN;
+  int val = q->arr[q->q_front];
+  q->q_front = (q->q_front + 1) % q->cap;
+  q->size = q->size - 1;
+  return val;
+}
+
 #define N 8
 
 int * BFS(vertex graph[], int n, int s) {
