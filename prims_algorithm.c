@@ -1,6 +1,7 @@
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "graph.h"
 
 #define N 9
 #define parent(i) ((i + 1) / 2 - 1)
@@ -103,39 +104,13 @@ void Change_key(PQ *pq, node *v, int k) {
   }
 }
 
-void print_heap(PQ *pq) {
-  printf("\n");
-  for (int i = 0; i < pq->heap_size; i++)
-    printf("Vertex = %d    Key = %d\n", pq->elements[i]->vertex, pq->elements[i]->key);
-}
-
-void pretty_DFS_Visit(int graph[N][N], int u, char color[N], int indent) {
-  color[u] = 'G';
-  for (int i = 0; i < indent; i++)
-    printf("    |");
-  printf("----");
-  printf("%d\n", u);
-  for (int i = 0; i < N; i++) {
-    if (graph[u][i] == 1 && color[i] == 'W') { pretty_DFS_Visit(graph, i, color, indent + 1); }
-  }
-  color[u] = 'B';
-}
-
-void pretty_dfs(int graph[N][N]) {
-  char color[N];
-  for (int i = 0; i < N; i++)
-    color[i] = 'W';
-  for (int i = 0; i < N; i++) {
-    if (color[i] == 'W') pretty_DFS_Visit(graph, i, color, 0);
-  }
-}
-
 void MST_prim(int graph[N][N]) {
   PQ *pq = create_heap();
-  int final_graph[N][N];
-  for (int i = 0; i < N; i++)
-    for (int j = 0; j < N; j++)
-      final_graph[i][j] = 0;
+  vertex final_graph[N];
+  for(int i=0; i<N; i++){
+    final_graph[i].next = NULL;
+    final_graph[i].index = i;
+  }
 
   node vertices[N];
   for (int i = 0; i < N; i++) {
@@ -160,14 +135,15 @@ void MST_prim(int graph[N][N]) {
     }
     if (u->vertex > 0) {
       printf("\nEdge Selected: %d ---- %d", u->predecessor, u->vertex);
-      final_graph[u->vertex][u->predecessor] = 1;
-      final_graph[u->predecessor][u->vertex] = 1;
+      insert_edge(final_graph,u->vertex,u->predecessor);
+      insert_edge(final_graph,u->predecessor,u->vertex);
     }
   }
   printf("\n");
-  pretty_dfs(final_graph);
+  pretty_print_dfs(final_graph,N);
   free(pq->elements);
   free(pq);
+  free_graph(final_graph,N);
 }
 
 int main(int argc, char *argv[]) {

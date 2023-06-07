@@ -1,3 +1,4 @@
+#include "graph.h"
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -36,32 +37,12 @@ void link(Node *x, Node *y) {
 
 #define Union(x, y) link(find_set(x), find_set(y))
 
-void pretty_DFS_Visit(int graph[N][N], int u, char color[N], int indent) {
-  color[u] = 'G';
-  for (int i = 0; i < indent; i++)
-    printf("    |");
-  printf("----");
-  printf("%d\n", u);
-  for (int i = 0; i < N; i++) {
-    if (graph[u][i] == 1 && color[i] == 'W') { pretty_DFS_Visit(graph, i, color, indent + 1); }
-  }
-  color[u] = 'B';
-}
-
-void pretty_dfs(int graph[N][N]) {
-  char color[N];
-  for (int i = 0; i < N; i++)
-    color[i] = 'W';
-  for (int i = 0; i < N; i++) {
-    if (color[i] == 'W') pretty_DFS_Visit(graph, i, color, 0);
-  }
-}
-
 void kruskal(int graph[N][N]) {
-  int final_graph[N][N];
-  for (int i = 0; i < N; i++)
-    for (int j = 0; j < N; j++)
-      final_graph[i][j] = 0;
+  vertex final_graph[N];
+  for (int i = 0; i < N; i++) {
+    final_graph[i].index = i;
+    final_graph[i].next = NULL;
+  }
 
   Node *node_list[N];
   for (int i = 0; i < N; i++) {
@@ -84,14 +65,15 @@ void kruskal(int graph[N][N]) {
     }
     Union(node_list[u], node_list[v]);
     edge_count = edge_count + 1;
-    final_graph[u][v] = 1;
-    final_graph[v][u] = 1;
+    insert_edge(final_graph, u, v);
+    insert_edge(final_graph, v, u);
     printf("Edge Selected: %d --- %d\n", u, v);
   }
   printf("\nFinal Tree:\n");
-  pretty_dfs(final_graph);
-  for(int i=0; i<N; i++)
+  pretty_print_dfs(final_graph, N);
+  for (int i = 0; i < N; i++)
     free(node_list[i]);
+  free_graph(final_graph,N);
 }
 
 int main(int argc, char *argv[]) {
