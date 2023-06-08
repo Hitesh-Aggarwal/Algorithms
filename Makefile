@@ -11,7 +11,7 @@ MATH_FILES := $(patsubst %.c, $(OUT_DIR)/%, $(math_files))
 
 all: $(MAIN_FILES)
 
-$(OUT_DIR)/prims_algorithm : priority_queue.c
+$(OUT_DIR)/prims_algorithm $(OUT_DIR)/dijkastra : priority_queue.c
 $(OUT_DIR)/kruskal_algo : disjoint_sets.c
 $(OUT_DIR)/breadth_first_search : queue.c
 
