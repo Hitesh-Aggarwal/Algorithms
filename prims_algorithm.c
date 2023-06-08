@@ -1,149 +1,60 @@
+#include "graph.h"
+#include "priority_queue.h"
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "graph.h"
 
 #define N 9
-#define parent(i) ((i + 1) / 2 - 1)
-#define left(i) ((2 * (i + 1) - 1))
-#define right(i) (2 * (i + 1))
-#define is_empty(pq) (pq->heap_size == 0)
-
-typedef struct node {
-  int vertex;
-  int key;
-  int predecessor;
-} node;
-
-typedef struct PQ {
-  node **elements;
-  int heap_size;
-} PQ;
-
-PQ *create_heap() {
-  PQ *pq = malloc(sizeof(PQ));
-  pq->elements = malloc(sizeof(node *) * N);
-  pq->heap_size = 0;
-  return pq;
-}
-
-void MinHeapify(PQ *pq, int i) {
-  int l = left(i);
-  int r = right(i);
-  int smallest = l;
-  node *temp;
-  if (l < pq->heap_size && pq->elements[l]->key < pq->elements[i]->key)
-    smallest = l;
-  else
-    smallest = i;
-  if (r < pq->heap_size && pq->elements[r]->key < pq->elements[smallest]->key) smallest = r;
-  if (smallest != i) {
-    temp = pq->elements[i];
-    pq->elements[i] = pq->elements[smallest];
-    pq->elements[smallest] = temp;
-    MinHeapify(pq, smallest);
-  }
-}
-
-node *heap_extract_min(PQ *pq) {
-  if (pq->heap_size < 1) {
-    printf("Heap underflow");
-    return NULL;
-  }
-  node *min = pq->elements[0];
-  pq->elements[0] = pq->elements[pq->heap_size - 1];
-  pq->elements[pq->heap_size - 1] = NULL;
-  pq->heap_size = pq->heap_size - 1;
-  MinHeapify(pq, 0);
-  return min;
-}
-
-void Heap_decrease_key(PQ *pq, int i, int k) {
-  if (i >= pq->heap_size) return;
-  if (k > pq->elements[i]->key) {
-    printf("new key larger than current key");
-    return;
-  }
-  pq->elements[i]->key = k;
-  node *temp = pq->elements[i];
-  while (i > 0 && pq->elements[parent(i)]->key > temp->key) {
-    pq->elements[i] = pq->elements[parent(i)];
-    i = parent(i);
-  }
-  pq->elements[i] = temp;
-}
-
-int is_present(PQ *pq, node *v) {
-  int flag = 0;
-  for (int i = 0; i < pq->heap_size; i++)
-    if (pq->elements[i] == v) {
-      flag = 1;
-      break;
-    }
-  return flag;
-}
-
-void min_heap_insert(PQ *pq, node *v) {
-  if (pq->heap_size >= N) {
-    printf("Heap Overflow");
-    return;
-  }
-  int k = v->key;
-  v->key = INT_MAX;
-  pq->elements[pq->heap_size] = v;
-  pq->heap_size = pq->heap_size + 1;
-  Heap_decrease_key(pq, pq->heap_size - 1, k);
-}
-
-void Change_key(PQ *pq, node *v, int k) {
-  for (int i = 0; i < pq->heap_size; i++) {
-    if (pq->elements[i] == v) {
-      Heap_decrease_key(pq, i, k);
-      break;
-    }
-  }
-}
 
 void MST_prim(int graph[N][N]) {
-  PQ *pq = create_heap();
+  PQ *queue = create_queue(N);
   vertex final_graph[N];
-  for(int i=0; i<N; i++){
+  for (int i = 0; i < N; i++) {
     final_graph[i].next = NULL;
     final_graph[i].index = i;
   }
 
-  node vertices[N];
+  // convert all integers to pointers so that we can store them in priority_queue
+  // since the PQ stores only void *
+  int *vertices[N];
   for (int i = 0; i < N; i++) {
-    vertices[i].key = INT_MAX;
-    vertices[i].predecessor = -1;
-    vertices[i].vertex = i;
+    vertices[i] = malloc(sizeof(int));
+    *vertices[i] = i;
+  }
+  int p[N]; // p[i] is predecessor of vertex i
+  int k[N]; // key[i] is key of vertex i
+
+  for (int i = 0; i < N; i++) {
+    k[i] = INT_MAX;
+    p[i] = -1;
   }
 
-  vertices[0].key = 0;
+  k[0] = 0;
   for (int i = 0; i < N; i++)
-    min_heap_insert(pq, &vertices[i]);
+    min_heap_insert(queue, vertices[i], k[i]);
 
-  while (!is_empty(pq)) {
-    node *u = heap_extract_min(pq);
+  while (!is_empty(queue)) {
+    int *u = heap_extract_min(queue);
     for (int i = 0; i < N; i++) {
-      if (graph[u->vertex][vertices[i].vertex] != INT_MAX) {
-        if (is_present(pq, &vertices[i]) && graph[u->vertex][i] < vertices[i].key) {
-          vertices[i].predecessor = u->vertex;
-          Change_key(pq, &vertices[i], graph[u->vertex][i]);
-        }
+      if (*u != i && graph[*u][i] != INT_MAX && is_present(queue, vertices[i]) &&
+          graph[*u][i] < k[i]) {
+        p[i] = *u;
+        k[i] = graph[*u][i];
+        Heap_decrease_key(queue, vertices[i], k[i]);
       }
     }
-    if (u->vertex > 0) {
-      printf("\nEdge Selected: %d ---- %d", u->predecessor, u->vertex);
-      insert_edge(final_graph,u->vertex,u->predecessor);
-      insert_edge(final_graph,u->predecessor,u->vertex);
+    if (*u > 0) {
+      printf("\nEdge Selected: %d ---- %d", p[*u], *u);
+      insert_edge(final_graph, *u, p[*u]);
+      insert_edge(final_graph, p[*u], *u);
     }
   }
   printf("\n");
-  pretty_print_dfs(final_graph,N);
-  free(pq->elements);
-  free(pq);
-  free_graph(final_graph,N);
+  pretty_print_dfs(final_graph, N);
+  free_memory(queue);
+  free_graph(final_graph, N);
+  for (int i = 0; i < N; i++)
+    free(vertices[i]);
 }
 
 int main(int argc, char *argv[]) {
