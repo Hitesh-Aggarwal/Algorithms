@@ -6,6 +6,7 @@
 #define N 5
 
 void relax(int w[N][N], int u, int v, int *d, int *p) {
+  if (d[u] == INT_MAX) return;
   if (d[v] > d[u] + w[u][v]) {
     d[v] = d[u] + w[u][v];
     p[v] = u;
