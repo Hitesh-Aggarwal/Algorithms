@@ -2,31 +2,17 @@ OUT_DIR := ./out
 MAIN_FILES := $(patsubst %.c, $(OUT_DIR)/%, $(filter-out graph.c, $(wildcard *.c)))
 CFLAGS := -O3 -Wall
 
+graph_files := breadth_first_search.c depth_first_search.c kruskal_algo.c prims_algorithm.c strongly_connected_components.c bellman_ford.c
+GRAPH_FILES := $(patsubst %.c, $(OUT_DIR)/%, $(graph_files))
+
+math_files := radix_sort.c protoVanEmdeBoasTree.c vanEmdeBoasTrees.c
+MATH_FILES := $(patsubst %.c, $(OUT_DIR)/%, $(math_files))
+
 all: $(MAIN_FILES)
 
-$(OUT_DIR)/radix_sort : radix_sort.c
-	@mkdir -p $(@D)
-	gcc $(CFLAGS) -o $@ $< -lm
+$(MATH_FILES): -lm
 
-$(OUT_DIR)/protoVanEmdeBoasTree : protoVanEmdeBoasTree.c
-	@mkdir -p $(@D)
-	gcc $(CFLAGS) -o $@ $< -lm
-
-$(OUT_DIR)/vanEmdeBoasTrees : vanEmdeBoasTrees.c
-	@mkdir -p $(@D)
-	gcc $(CFLAGS) -o $@ $< -lm
-
-$(OUT_DIR)/breadth_first_search : breadth_first_search.c graph.c
-
-$(OUT_DIR)/depth_first_search : depth_first_search.c graph.c
-
-$(OUT_DIR)/kruskal_algo : kruskal_algo.c graph.c
-
-$(OUT_DIR)/prims_algorithm : prims_algorithm.c graph.c
-
-$(OUT_DIR)/strongly_connected_components : strongly_connected_components.c graph.c
-
-$(OUT_DIR)/bellman_ford: bellman_ford.c graph.c
+$(GRAPH_FILES): graph.c
 
 $(OUT_DIR)/% : %.c
 	@mkdir -p $(@D)
