@@ -6,12 +6,20 @@
 vertex *create_vertex(int index) {
   vertex *x = malloc(sizeof(vertex));
   x->index = index;
+  x->weight = 0;
   x->next = NULL;
   return x;
 }
 
 void insert_edge(vertex graph[], int u, int v) {
   vertex *x = create_vertex(v);
+  x->next = graph[u].next;
+  graph[u].next = x;
+}
+
+void insert_weighted_edge(vertex graph[], int u, int v, int w){
+  vertex *x = create_vertex(v);
+  x->weight = w;
   x->next = graph[u].next;
   graph[u].next = x;
 }
