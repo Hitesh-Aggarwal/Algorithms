@@ -1,5 +1,5 @@
 OUT_DIR := ./out
-LIBS := graph.c disjoint_sets.c priority_queue.c
+LIBS := graph.c disjoint_sets.c priority_queue.c queue.c
 MAIN_FILES := $(patsubst %.c, $(OUT_DIR)/%, $(filter-out $(LIBS), $(wildcard *.c)))
 CFLAGS := -O3 -Wall
 
@@ -13,6 +13,7 @@ all: $(MAIN_FILES)
 
 $(OUT_DIR)/prims_algorithm : priority_queue.c
 $(OUT_DIR)/kruskal_algo : disjoint_sets.c
+$(OUT_DIR)/breadth_first_search : queue.c
 
 $(MATH_FILES): -lm
 
