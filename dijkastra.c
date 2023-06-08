@@ -44,7 +44,6 @@ void dijkastra(vertex *graph, int s) {
   }
   for (int i = 0; i < N; i++) {
     if (i == s) continue;
-    insert_edge(final_graph, i, p[i]);
     insert_edge(final_graph, p[i], i);
   }
   pretty_print_dfs(final_graph, N);
