@@ -2,28 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
-
-typedef struct queue {
-  int cap;
-  int size;
-  int *arr;
-  int q_front;
-} queue;
-
-void enqueue(queue *q, int val) {
-  if (q->size == q->cap) return;
-  int index = (q->q_front + q->size) % q->cap;
-  q->size += 1;
-  q->arr[index] = val;
-}
-
-int dequeue(queue *q) {
-  if (q->size == 0) return INT_MIN;
-  int val = q->arr[q->q_front];
-  q->q_front = (q->q_front + 1) % q->cap;
-  q->size = q->size - 1;
-  return val;
-}
+#include "queue.h"
 
 #define N 8
 
@@ -31,11 +10,13 @@ int * BFS(vertex graph[], int n, int s) {
   char color[n];
   int dist[n];
   int *predecessor = malloc(sizeof(int)*n);
-  queue Q;
-  Q.arr = malloc(sizeof(int) * n);
-  Q.size = 0;
-  Q.cap = n;
-  Q.q_front = 0;
+  Queue *Q = make_queue(N);
+  // make an array to store pointers since queue stores void * pointers.
+  int *pointer[N];
+  for(int i=0; i<N; i++){
+    pointer[i] = malloc(sizeof(int));
+    *pointer[i] = i;
+  }
 
   for (int i = 0; i < n; i++) {
     if (i == s) continue;
@@ -46,23 +27,25 @@ int * BFS(vertex graph[], int n, int s) {
   color[s] = 'G';
   dist[s] = 0;
   predecessor[s] = -1;
-  enqueue(&Q, s);
-  while (Q.size > 0) {
-    int u = dequeue(&Q);
-    vertex *p = graph[u].next;
+  enqueue(Q, pointer[s]);
+  while (!is_empty(Q)) {
+    int *u = dequeue(Q);
+    vertex *p = graph[*u].next;
     while (p != NULL) {
       if (color[p->index] == 'W') {
         color[p->index] = 'G';
-        dist[p->index] = dist[u] + 1;
-        predecessor[p->index] = u;
-        enqueue(&Q, p->index);
+        dist[p->index] = dist[*u] + 1;
+        predecessor[p->index] = *u;
+        enqueue(Q, pointer[p->index]);
       }
       p = p->next;
     }
-    color[u] = 'B';
-    printf("Node: %d\t\tPredecessor: %d\t\tDistance from source: %d\n", u, predecessor[u], dist[u]);
+    color[*u] = 'B';
+    printf("Node: %d\t\tPredecessor: %d\t\tDistance from source: %d\n", *u, predecessor[*u], dist[*u]);
   }
-  free(Q.arr);
+  free_queue(Q);
+  for(int i=0; i<N; i++)
+    free(pointer[i]);
   return predecessor;
 }
 
