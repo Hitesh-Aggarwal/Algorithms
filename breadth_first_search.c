@@ -6,10 +6,10 @@
 
 #define N 8
 
-int * BFS(vertex graph[], int n, int s) {
+void BFS(vertex graph[], int n, int s) {
   char color[n];
   int dist[n];
-  int *predecessor = malloc(sizeof(int)*n);
+  int predecessor[n];
   Queue *Q = make_queue(N);
   // make an array to store pointers since queue stores void * pointers.
   int *pointer[N];
@@ -28,6 +28,7 @@ int * BFS(vertex graph[], int n, int s) {
   dist[s] = 0;
   predecessor[s] = -1;
   enqueue(Q, pointer[s]);
+  printf("Node\tPredecessor\tDistanceFromSource\n");
   while (!is_empty(Q)) {
     int *u = dequeue(Q);
     vertex *p = graph[*u].next;
@@ -41,23 +42,11 @@ int * BFS(vertex graph[], int n, int s) {
       p = p->next;
     }
     color[*u] = 'B';
-    printf("Node: %d\t\tPredecessor: %d\t\tDistance from source: %d\n", *u, predecessor[*u], dist[*u]);
+    printf("%d\t%d\t\t%d\n", *u, predecessor[*u], dist[*u]);
   }
   free_queue(Q);
   for(int i=0; i<N; i++)
     free(pointer[i]);
-  return predecessor;
-}
-
-void print_path(vertex *G, int s, int v, int n, int *predecessor){
-  if (v == s)
-    printf("%d ", s);
-  else if (predecessor[v] == -1)
-    printf("No path from %d to %d exists.\n",s,v);
-  else {
-    print_path(G,s,predecessor[v],n,predecessor);
-    printf("%d ", v);
-  }
 }
 
 int main(int argc, char *argv[]) {
@@ -87,7 +76,6 @@ int main(int argc, char *argv[]) {
   insert_edge(graph, 7, 3);
   insert_edge(graph, 7, 6);
   BFS(graph, N, 0);
-  print_path(graph,0,7,N,BFS(graph,N,0));
   free_graph(graph, N);
   return EXIT_SUCCESS;
 }
