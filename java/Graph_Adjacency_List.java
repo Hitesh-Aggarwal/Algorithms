@@ -1,4 +1,4 @@
-public class graph {
+public class Graph_Adjacency_List {
   public class vertex {
     public int i;
     public int w;
@@ -17,7 +17,7 @@ public class graph {
 
   public vertex[] list;
 
-  public graph(int n) {
+  public Graph_Adjacency_List(int n) {
     list = new vertex[n];
   }
 
