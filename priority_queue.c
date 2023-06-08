@@ -1,6 +1,5 @@
 #include "priority_queue.h"
 #include <limits.h>
-#include <stdio.h>
 #include <stdlib.h>
 
 #define parent(i) ((i + 1) / 2 - 1)
