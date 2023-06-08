@@ -1,16 +1,70 @@
 public class graph {
+
   public class vertex {
-    int i;
-    int w;
-    vertex next;
-  }
-  public vertex[] list;
-  public graph(int n){
-    list = new vertex[n];
-    for(int i=0; i<n; i++){
-      list[i].i = i;
-      list[i].w = 0;
-      list[i].next = null;
+    public int i;
+    public int w;
+    public vertex next;
+
+    public vertex(int i, int w) {
+      this.i = i;
+      this.w = w;
+      this.next = null;
     }
+
+    public vertex(int i) {
+      this(i, 1);
+    }
+  }
+
+  public vertex[] list;
+
+  public graph(int n) {
+    list = new vertex[n];
+  }
+
+  public void insert_edge(int u, int v){
+    insert_edge(u,v,1);
+  }
+
+  public void insert_edge(int u, int v, int w) {
+    vertex x = new vertex(v,w);
+    if(list[u] == null) list[u] = x;
+    else{
+      x.next = list[u];
+      list[u] = x;
+    }
+  }
+
+  public boolean is_edge(int u, int v){
+    if (list[u] == null) return false;
+    vertex x = list[u];
+    while (x != null) {
+      if (x.i == v) return true;
+      x = x.next;
+    }
+    return false;
+  }
+
+  private void dfs_visit(int u, char[] color, int indent){
+    color[u] = 'G';
+    for(int i=0; i<indent; i++)
+      System.out.print("    |");
+    System.out.print("----");
+    System.out.println(u);
+    vertex x = list[u];
+    while (x != null){
+      if (color[x.i] == 'W')
+        dfs_visit(x.i,color,indent+1);
+      x = x.next;
+    }
+    color[u] = 'B';
+  }
+
+  public void pretty_print(){
+    char[] color = new char[list.length];
+    for(int i=0; i<color.length; i++)
+      color[i] = 'W';
+    for(int i=0; i<list.length; i++)
+      if (color[i] == 'W') dfs_visit(i,color,0);
   }
 }
