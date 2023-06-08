@@ -19,10 +19,6 @@ PQ *create_queue(int cap) {
   return x;
 }
 
-int is_empty(PQ *queue) { return (queue->heap_size == 0); }
-
-int is_full(PQ *pq) { return (pq->heap_size >= pq->capacity); }
-
 void *heap_minimum(PQ *queue) {
   if (is_empty(queue))
     return NULL;

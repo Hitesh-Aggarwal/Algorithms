@@ -12,9 +12,10 @@ typedef struct PQ {
   int capacity;
 } PQ;
 
+#define is_empty(pq) (pq->heap_size == 0)
+#define is_full(pq) (pq->heap_size == pq->capacity)
+
 PQ* create_queue(int cap);
-int is_empty(PQ *queue);
-int is_full(PQ *pq);
 void *heap_minimum(PQ *queue);
 int is_present(PQ *queue, void *obj);
 void *heap_extract_min(PQ *pq);
