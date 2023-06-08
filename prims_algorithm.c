@@ -45,7 +45,6 @@ void MST_prim(int graph[N][N]) {
     }
     if (*u > 0) {
       printf("\nEdge Selected: %d ---- %d", p[*u], *u);
-      insert_edge(final_graph, *u, p[*u]);
       insert_edge(final_graph, p[*u], *u);
     }
   }

@@ -29,7 +29,6 @@ public class Prims_Algorithm {
         }
       }
       if (u > 0) {
-        G.insert_edge(u, p[u]);
         G.insert_edge(p[u], u);
       }
     }
