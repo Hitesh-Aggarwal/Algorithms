@@ -6,10 +6,11 @@
 
 #define N 5
 
-void relax(int u, int v, int w, int *d, int *p) {
+void relax(int u, int v, int w, int *d, int *p, PQ *q, int **pointers) {
   if (d[u] == INT_MAX) return;
   if (d[v] > d[u] + w) {
     d[v] = d[u] + w;
+    Heap_decrease_key(q, pointers[v], d[v]);
     p[v] = u;
   }
 }
@@ -38,7 +39,7 @@ void dijkastra(vertex *graph, int s) {
     int *u = heap_extract_min(q);
     vertex *v = graph[*u].next;
     while (v) {
-      relax(*u, v->index, v->weight, d, p);
+      relax(*u, v->index, v->weight, d, p, q, pointer);
       v = v->next;
     }
   }
