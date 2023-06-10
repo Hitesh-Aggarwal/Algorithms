@@ -1,6 +1,25 @@
 import java.util.Arrays;
 
 public class Floyd_Warshall {
+  private static int[][] transitive_closure(int[][] w) {
+    int n = w.length;
+    int[][] t_p = new int[n][n];
+    int[][] t = new int[n][n];
+    for (int i = 0; i < n; i++)
+      for (int j = 0; j < n; j++)
+        t_p[i][j] = (w[i][j] < 1000) ? 1 : 0;
+
+    for (int k = 0; k < n; k++) {
+      for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+          t[i][j] = t_p[i][j] | (t[i][k] & t[k][j]);
+        }
+      }
+      t_p = t;
+    }
+    return t;
+  }
+
   private static int[][] floyd_warshall(int[][] w) {
     int n = w.length;
     int[][] D_k_p = w;
@@ -40,6 +59,10 @@ public class Floyd_Warshall {
 
     int[][] f = floyd_warshall(w);
     for (int[] row : f)
+      System.out.println(Arrays.toString(row));
+
+    int[][] t = transitive_closure(w);
+    for (int[] row : t)
       System.out.println(Arrays.toString(row));
   }
 }
