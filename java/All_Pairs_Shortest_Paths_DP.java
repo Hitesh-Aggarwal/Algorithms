@@ -1,17 +1,16 @@
 import java.util.*;
-public class All_Pairs_Shortest_Paths_DP {
-  private static void extend_shortest_paths(int[][] L, int[][] w) {
-    int n = L.length;
-    // this creates a copy of arrays.
-    int[][] temp = Arrays.stream(L).map(int[]::clone).toArray(int[][]::new);
-    int[][] W = Arrays.stream(w).map(int[]::clone).toArray(int[][]::new);
 
+public class All_Pairs_Shortest_Paths_DP {
+  private static int[][] extend_shortest_paths(int[][] L, int[][] w) {
+    int n = L.length;
+    int[][] temp = new int[n][n];
     for (int i = 0; i < n; i++)
       for (int j = 0; j < n; j++) {
-        L[i][j] = 1000;
+        temp[i][j] = 1000;
         for (int k = 0; k < n; k++)
-          L[i][j] = Math.min(L[i][j], temp[i][k] + W[k][j]);
+          temp[i][j] = Math.min(temp[i][j], L[i][k] + w[k][j]);
       }
+    return temp;
   }
 
   private static void print_paths(int[][] L) {
@@ -26,17 +25,17 @@ public class All_Pairs_Shortest_Paths_DP {
 
   private static void fast_all_pairs_shortest_paths(int[][] w) {
     int n = w.length;
-    int[][] L = Arrays.stream(w).map(int[]::clone).toArray(int[][]::new);
+    int[][] L = w;
     for (int m = 1; m < n - 1; m++)
-      extend_shortest_paths(L, L);
+      L = extend_shortest_paths(L, L);
     print_paths(L);
   }
 
   private static void slow_all_pairs_shortest_paths(int[][] w) {
     int n = w.length;
-    int[][] L = Arrays.stream(w).map(int[]::clone).toArray(int[][]::new);
+    int[][] L = w;
     for (int m = 1; m < n - 1; m++)
-      extend_shortest_paths(L, w);
+      L = extend_shortest_paths(L, w);
     print_paths(L);
   }
 
