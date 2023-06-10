@@ -14,13 +14,9 @@ public class All_Pairs_Shortest_Paths_DP {
   }
 
   private static void print_paths(int[][] L) {
-    int n = L.length;
     System.out.println("Final Matrix");
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++)
-        System.out.print(L[i][j] + "\t");
-      System.out.println();
-    }
+    for (int[] row : L)
+      System.out.println(Arrays.toString(row));
   }
 
   private static void fast_all_pairs_shortest_paths(int[][] w) {
